@@ -32,7 +32,6 @@
                 <div class="pull-right" style="width: 250px;">
                 </div>
                 <div class="tools-group">
-                    <button type="button" class="btn btn-primary"><i class="icon icon-upload"></i> 上传</button>
                 </div>
             </div>
 
@@ -47,9 +46,7 @@
                                 <div class="media-wrapper">
                                     <img src="{{ storage_image_url($image->path) }}" alt="{{$image->title}}" style="height: 166px;">
                                 </div>
-                                {{--<div class="caption">“良辰美景” 出自《牡丹亭》</div>--}}
                                 <div class="card-heading"><strong>{{$image->title}}</strong></div>
-                                {{--<div class="card-content text-muted">良辰美景奈何天，赏心乐事谁家院。</div>--}}
                             </div>
                         </div>
                         @endforeach
