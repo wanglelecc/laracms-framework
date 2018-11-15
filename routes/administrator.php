@@ -46,7 +46,7 @@ Route::group(['domain' => config('administrator.domain'), 'prefix' => config('ad
  * 后台需要认证相关路由
  * -------------------------------------------------------------------------
  */
-Route::group(['domain' => config('administrator.domain'), 'prefix' => config('administrator.uri'), 'namespace' => '\Wanglelecc\Laracms\Http\Controllers\Administrator', 'middleware' => ['laracms.auth'], ], function () {
+Route::group(['domain' => config('administrator.domain'), 'prefix' => config('administrator.uri'), 'namespace' => 'Administrator', 'middleware' => ['laracms.auth'], ], function () {
 
     # 首页
     Route::get('/', 'WelcomeController@dashboard')->name('administrator.dashboard');
