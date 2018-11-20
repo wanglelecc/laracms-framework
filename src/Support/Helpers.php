@@ -690,13 +690,12 @@ if( !function_exists("jobs_log") ){
     /**
      * 任务日志记录
      *
-     * @param $type
      * @param $description
      * @param null $model
      * @return mixed
      */
-    function jobs_log($type, $description, $model = null){
-        return laracms_log('jobs', $type, $description, $model);
+    function jobs_log($description, $model = null){
+        return laracms_log('jobs', $description, $model);
     }
 }
 
@@ -704,13 +703,12 @@ if( !function_exists("queue_log") ){
     /**
      * 队列日志记录
      *
-     * @param $type
      * @param $description
      * @param null $model
      * @return mixed
      */
-    function queue_log($type, $description, $model = null){
-        return laracms_log('queue', $type, $description, $model);
+    function queue_log($description, $model = null){
+        return laracms_log('queue', $description, $model);
     }
 }
 
@@ -718,13 +716,12 @@ if( !function_exists("behavior_log") ){
     /**
      * 行为日志记录
      *
-     * @param $type
      * @param $description
      * @param null $model
      * @return mixed
      */
-    function behavior_log($type, $description, $model = null){
-        return laracms_log('behavior', $type, $description, $model);
+    function behavior_log($description, $model = null){
+        return laracms_log('behavior', $description, $model);
     }
 }
 
@@ -732,13 +729,12 @@ if( !function_exists("business_log") ){
     /**
      * 记录业务日志
      *
-     * @param $type
      * @param $description
      * @param null $model
      * @return mixed
      */
-    function business_log($type, $description, $model = null){
-        return laracms_log('business', $type, $description, $model);
+    function business_log($description, $model = null){
+        return laracms_log('business', $description, $model);
     }
 }
 
