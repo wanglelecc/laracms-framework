@@ -16,7 +16,7 @@
 namespace Wanglelecc\Laracms\Http\Controllers\Administrator;
 
 use Hash;
-use App\User;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 //use Wanglelecc\Laracms\Models\User;
