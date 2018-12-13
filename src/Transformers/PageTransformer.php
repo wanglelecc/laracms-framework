@@ -30,7 +30,7 @@ class PageTransformer extends TransformerAbstract
             'keywords' => $page->keywords,
             'description' => $page->description,
             'author' => $page->author,
-//            'thumb' => $page->getThumb(),
+//            'thumb' => storage_image_url($page->thumb),
             'content' => $page->content,
             'is_link' => $page->is_link,
             'link' => $page->getLink(),
