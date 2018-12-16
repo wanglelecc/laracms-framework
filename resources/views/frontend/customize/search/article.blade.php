@@ -55,7 +55,7 @@ $breadcrumb = false;
                         <li>
                             <h2><a target="_blank" href="{{$article->getLink(0,0)}}">{!! str_replace($query,"<strong>{$query}</strong>",$article->title) !!}</a> </h2>
                             <p>{!! str_replace($query, "<strong>{$query}</strong>", $article->description) !!}  </p>
-                            <p><a target="_blank" href="{{$article->getLink(0,0)}}">{{$article->getLink(0,0)}}</a><span>{{ $article->getDate()  }}</span></p>
+                            <p><a target="_blank" href="{{$article->getLink(0,0)}}">{{$article->getLink(0,0)}}</a><span>{{ $article->created_at->toDateString()}}</span></p>
                             <div class="fly-list-badge"></div>
                         </li>
                         @endforeach
