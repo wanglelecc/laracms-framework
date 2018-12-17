@@ -72,7 +72,7 @@ class Category extends Model
         }
         
         // 4. 检查分类下是否有文章
-        $count = DB::talbe('article_category')->where('category_id',$this->id)->count();
+        $count = DB::table('article_category')->where('category_id',$this->id)->count();
         if($count > 0){
             return '当前分类下有内容，无法删除！'; // 找到已使用，不允许删除
         }
