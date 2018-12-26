@@ -113,7 +113,7 @@ class LaracmsServiceProvider extends ServiceProvider
             $this->publishes([
                 __DIR__.'/../../resources/views/errors'   => resource_path('views/errors'),
                 __DIR__.'/../../resources/views/backend'  => resource_path('views/vendor/backend'),
-                __DIR__.'/../../resources/views/frontend' => resource_path('views/vendor/frontend'),
+                __DIR__.'/../../resources/views/frontend/customize' => resource_path('views/vendor/frontend'),
             ], 'laracms-view');
     
             $this->publishes([
