@@ -19,6 +19,8 @@ use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
+use Wanglelecc\Laracms\Handlers\CategoryHandler;
+
 
 /**
  * 权限控制器
@@ -36,15 +38,23 @@ class PermissionsController extends Controller
     /**
      * 列表
      *
-     * @param Request $request
-     * @param Permission $permission
+     * @param Request         $request
+     * @param Permission      $permission
+     * @param CategoryHandler $categoryHandler
+     *
      * @return mixed
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function index(Request $request, Permission $permission)
+    public function index(Request $request, Permission $permission, CategoryHandler $categoryHandler)
     {
         $this->authorize('index', $permission);
-        $permissions = $permission->paginate(config('administrator.paginate.limit'));
+        
+        $permissions = $permission->orderBy('order', 'desc')->orderBy('id', 'asc')->get();
+        
+        if($permissions){
+            $permissions = $categoryHandler->level($permissions);
+        }
+        
         return backend_view('permissions.index', compact('permissions'));
     }
 
@@ -58,18 +68,29 @@ class PermissionsController extends Controller
     {
         return backend_view('permissions.show', compact('permission'));
     }
-
+    
     /**
      * 创建
      *
-     * @param Permission $permission
+     * @param Permission      $permission
+     * @param CategoryHandler $categoryHandler
+     *
      * @return mixed
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function create(Permission $permission)
+    public function create(Permission $permission, CategoryHandler $categoryHandler)
     {
         $this->authorize('create', $permission);
-        return backend_view('permissions.create_and_edit', compact('permission'));
+    
+        $parent = request('parent', 0);
+        
+        $permissions = $permission->select('id','remarks AS name','parent','order')->orderBy('order', 'desc')->orderBy('id', 'asc')->get();
+        
+        if($permissions){
+            $permissions = $categoryHandler->select($permissions);
+        }
+        
+        return backend_view('permissions.create_and_edit', compact('permissions','permission', 'parent'));
     }
 
     /**
@@ -83,22 +104,34 @@ class PermissionsController extends Controller
     public function store(Request $request, Permission $permission)
     {
         $this->authorize('create', $permission);
-        $user = Permission::create($request->only(['name','remarks']));
+        
+        Permission::create($request->only(['name','remarks', 'parent']));
+        
         return $this->redirect('permissions.index')->with('success', '添加成功.');
     }
-
+    
     /**
      * 编辑
      *
-     * @param Permission $permission
+     * @param Permission      $permission
+     * @param CategoryHandler $categoryHandler
+     *
      * @return mixed
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function edit(Permission $permission)
+    public function edit(Permission $permission, CategoryHandler $categoryHandler)
     {
         $this->authorize('update', $permission);
+        
+        $permissions = $permission->select('id','remarks AS name','parent','order')->orderBy('order', 'desc')->orderBy('id', 'asc')->get();
+        
+        if($permissions){
+            $permissions = $categoryHandler->select($permissions);
+        }
+        
+        $parent = $permissions->parent;
 
-        return backend_view('permissions.create_and_edit', compact('permission'));
+        return backend_view('permissions.create_and_edit', compact('permissions','permission', 'parent'));
     }
 
     /**
@@ -133,5 +166,27 @@ class PermissionsController extends Controller
         $permission->delete();
 
         return $this->redirect()->with('success', '删除成功.');
+    }
+    
+    /**
+     * 排序
+     *
+     * @param Permission $permission
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
+    public function order(Permission $permission){
+        
+        $this->authorize('update', $permission);
+        
+        $ids = request('id',[]);
+        
+        $order = request('order',[]);
+        
+        foreach($ids as $k => $id){
+            $permission->where('id', $id)->update(['order' => $order[$k] ?? 0 ]);
+        }
+        
+        return redirect()->route('permissions.index')->with('success', '操作成功.');
     }
 }

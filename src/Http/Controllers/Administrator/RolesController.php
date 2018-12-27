@@ -69,7 +69,7 @@ class RolesController extends Controller
     {
         $this->authorize('create', $role);
 
-        $permissions = Permission::get()->pluck('name','remarks');
+        $permissions = Permission::orderBy('order', 'desc')->orderBy('id', 'asc')->get();
         $rolePermissions = [];
 
         return backend_view('roles.create_and_edit', compact('role','permissions','rolePermissions'));
@@ -88,8 +88,8 @@ class RolesController extends Controller
         $this->authorize('create', $role);
 
         $role = Role::create($request->only(['name','remarks']));
-        $permissions = $request->input('permission') ? $request->input('permission') : [];
-        $role->givePermissionTo($permissions);
+        $permissions = request('permission', '');
+        $role->givePermissionTo(explode(',',$permissions));
 
         return $this->redirect('roles.index')->with('success', '添加成功.');
     }
@@ -104,7 +104,7 @@ class RolesController extends Controller
     public function edit(Role $role)
     {
         $this->authorize('update', $role);
-        $permissions = Permission::get()->pluck('name','remarks')->toArray();
+        $permissions = Permission::orderBy('order', 'desc')->orderBy('id', 'asc')->get();
         $rolePermissions = $role->permissions()->pluck('name', 'name')->toArray();
 
         return backend_view('roles.create_and_edit', compact('role','permissions', 'rolePermissions'));
@@ -122,8 +122,8 @@ class RolesController extends Controller
     {
         $this->authorize('update', $role);
         $role->update($request->only(['name','remarks']));
-        $permissions = $request->input('permission') ? $request->input('permission') : [];
-        $role->syncPermissions($permissions);
+        $permissions = request('permission', '');
+        $role->syncPermissions(explode(',',$permissions));
 
         return $this->redirect('roles.index')->with('success', '更新成功.');
     }

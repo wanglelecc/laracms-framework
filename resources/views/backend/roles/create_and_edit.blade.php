@@ -9,7 +9,23 @@
 @endsection
 
 @section('content')
+    @php
+        $zNodes = [];
+        $permissionValues = [];
+        foreach($permissions as $key => $val){
+            $checked = in_array($val->name,$rolePermissions) || in_array($val, old('permission',[]));
+            $zNodes[] = [
+                'id' => $val->id,
+                'pId' => $val->parent,
+                'name' => $val->remarks,
+                'open' => true,
+                'value' => $val->name,
+                'checked' => $checked,
+            ];
 
+            if($checked === true){ $permissionValues[] = $val->name; }
+        }
+    @endphp
     <h2 class="header-dividing">{{$title}} <small></small></h2>
     <div class="row">
         <div class="col-md-12">
@@ -45,14 +61,11 @@
                         <div class="form-group has-feedback has-icon-right">
                             <label for="" class="col-md-2 col-sm-2 control-label required">所属权限</label>
                             <div class="col-md-5 col-sm-10">
-                            <div class="checkbox">
-                                &nbsp;&nbsp;
-                                @foreach($permissions as $key => $val)
-                                    <label class="checkbox-inline">
-                                        <input type="checkbox" name="permission[]" value="{{ $val }}" title="{{ $key }}" @if(in_array($val,$rolePermissions) || in_array($val, old('permission',[]))) checked="checked" @endif required > {{$key}}
-                                    </label>
-                                @endforeach
-                            </div></div>
+                                <div class="panel">
+                                    <ul id="permissionTree" class="ztree"></ul>
+                                    <input type="hidden" id="form-permission" name="permission" value="{{  implode(',', $permissionValues) }}">
+                                </div>
+                            </div>
                         </div>
 
                         <div class="form-group">
@@ -70,5 +83,45 @@
     </div>
 @endsection
 
+@section('styles')
+    <link rel="stylesheet" href="{{asset('vendor/laracms/plugins/ztree/css/zTreeStyle/zTreeStyle.css')}}">
+@endsection
+
 @section('scripts')
+    <script type="text/javascript" src="{{asset('vendor/laracms/plugins/ztree/js/jquery.ztree.core.js')}}"></script>
+    <script type="text/javascript" src="{{asset('vendor/laracms/plugins/ztree/js/jquery.ztree.excheck.js')}}"></script>
+    <script type="text/javascript">
+        var setting = {
+            check: {
+                enable: true
+            },
+            data: {
+                simpleData: {
+                    enable: true
+                }
+            },
+            callback:{
+                beforeCheck:true,
+                onCheck:onCheck
+            }
+        };
+
+        var zNodes = @php echo json_encode($zNodes, JSON_UNESCAPED_SLASHES) @endphp;
+
+        $.fn.zTree.init($("#permissionTree"), setting, zNodes);
+        var zTree = $.fn.zTree.getZTreeObj("permissionTree");
+        zTree.setting.check.chkboxType = { "Y":"ps", "N" : "ps"};
+
+        function onCheck(e,treeId,treeNode) {
+
+            var treeObj = $.fn.zTree.getZTreeObj("permissionTree"),
+                nodes = treeObj.getCheckedNodes(true),
+                permissionValues = [];
+            for (var i = 0; i < nodes.length; i++) {
+                permissionValues.push(nodes[i].value);
+            }
+
+            $("#form-permission").val(permissionValues.join(','));
+        }
+    </script>
 @endsection

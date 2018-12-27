@@ -21,6 +21,18 @@
                         <input type="hidden" name="_method" class="mini-hidden" value="{{ $permission->id ? 'PATCH' : 'POST' }}">
 
                         <div class="form-group has-feedback  has-icon-right">
+                            <label for="parent" class="col-md-2 col-sm-2 control-label required">父级</label>
+                            <div class="col-md-5 col-sm-10">
+                                <select data-placeholder="请选择父级" class="chosen-select form-control"  tabindex="2" name="parent">
+                                    <option value=""></option>
+                                    <option @if($parent == 0) selected @endif value="0">/</option>
+                                    @foreach($permissions as $key => $value)
+                                        <option @if($parent == $key) selected @endif value="{{$key}}">/ {{$value}}</option>
+                                    @endforeach
+                                </select></div>
+                        </div>
+
+                        <div class="form-group has-feedback  has-icon-right">
                             <label for="name" class="col-md-2 col-sm-2 control-label required">权限名称</label>
                             <div class="col-md-5 col-sm-10">
                             <input type="text" class="form-control" id="name" name="name" autocomplete="off" placeholder="" value="{{ old('name',$permission->name) }}"

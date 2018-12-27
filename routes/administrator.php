@@ -71,6 +71,7 @@ Route::group(['domain' => config('administrator.domain'), 'prefix' => config('ad
     Route::resource('roles', 'RolesController', ['only' => ['index', 'show', 'create', 'store', 'update', 'edit', 'destroy']]);
 
     # 权限相关路由
+    Route::put('permissions/order','PermissionsController@order')->name('permissions.order');
     Route::resource('permissions', 'PermissionsController', ['only' => ['index', 'show', 'create', 'store', 'update', 'edit', 'destroy']]);
 
     # 友情链接相关路由
