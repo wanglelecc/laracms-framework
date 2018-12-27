@@ -194,14 +194,14 @@ class ArticlesController extends Controller
         $checkid = $request->checkid;
 
         if(empty($checkid)){
-            return response_ajax(1,'request param error.');
+            return $this->redirect()->with('danger', '参数错误.');
         }
 
         if($article->whereIn('id', $checkid)->delete()){
             DB::table('article_category')->whereIn('article_id', $checkid)->delete();
-            return response_ajax();
+            return $this->redirect()->with('success', '批量删除成功.');
         }else{
-            return response_ajax(2, 'delete failed, please try again.');
+            return $this->redirect()->with('danger', '批量删除失败.');
         }
     }
 

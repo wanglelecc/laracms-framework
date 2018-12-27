@@ -39,14 +39,13 @@
                 <div class="tools-group">
                     <a href="{{ route('articles.create') }}?type={{$type}}"  class="btn btn-primary"><i class="icon icon-plus-sign"></i> 添加</a>
                     <button type="submit" class="btn btn-info" form="form-article-list"><i class="icon icon-sort-by-order-alt"></i> 排序</button>
-                    <button type="button" class="btn btn-danger articles-destroy-all" form="form-article-list" formaction="{{route('articles.destroy.all')}}"><i class="icon icon-trash"></i> 删除</button>
-
+                    <button type="button" class="btn btn-danger articles-destroy-all form-destroy-all" form="form-article-list" formaction="{{route('articles.destroy.all')}}"><i class="icon icon-trash"></i> 删除</button>
                 </div>
             </div>
 
             @if($articles->count())
 
-                <form name="form-article-list" id="form-article-list" lay-filter="form-article-list" class="layui-form layui-form-pane2" method="POST" action="{{route('articles.order')}}">
+                <form name="form-article-list" id="form-article-list" class="" method="POST" action="{{route('articles.order')}}">
                     <input type="hidden" name="_method" value="PUT">
                     {{ csrf_field() }}
                     <table class="table table-bordered">
@@ -64,7 +63,7 @@
                         </colgroup>
                         <thead>
                         <tr>
-                            <th class="text-center"><input type="checkbox"></th>
+                            <th class="text-center"><input type="checkbox" id="form-all-checked" value="0" ></th>
                             <th class="text-center">#</th>
                             <th class="text-center">排序</th>
                             <th class="text-center">标题</th>
@@ -80,8 +79,8 @@
                         @foreach($articles as $index => $article)
                             <tr>
                                 <td class="text-center">
+                                    <input type="checkbox" class="form-checked" name="checkid[]" value="{{$article->id}}">
                                     <input type="hidden" name="id[]" value="{{$article->id}}">
-                                    <input type="checkbox">
                                 </td>
                                 <td class="text-center">{{ $article->id }}</td>
                                 <td class="text-center">
@@ -121,7 +120,35 @@
 
 @section('scripts')
     <script type="text/javascript">
+        $("#form-all-checked").change(function(){
+            if($(this)[0].checked){
+                $("input[name='checkid[]']").prop("checked", true);//全选
+            }else{
+                $("input[name='checkid[]']").prop("checked", false);//取消全选
+            }
+        });
 
+
+        /**
+         * 确认批量删除
+         */
+        $("button.form-destroy-all").click(function(){
+            var _this = $(this);
+            var formaction = _this.attr("formaction");
+            var form = $("#form-article-list");
+
+            bootbox.confirm({
+                size: "small",
+                title: "系统提示",
+                message: "确认批量删除吗？",
+                callback: function(result){ if(result === true){
+                    form.attr('action', formaction);
+                    form.submit();
+                } }
+            });
+
+            return false;
+        });
     </script>
     @include('backend::common._upload_chunked_scripts',[])
     @include('backend::layouts._multiple_files',[])

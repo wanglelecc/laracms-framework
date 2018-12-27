@@ -107,7 +107,7 @@ Route::group(['domain' => config('administrator.domain'), 'prefix' => config('ad
 
     # 文章相关路由
     Route::put('articles/order','ArticlesController@order')->name('articles.order');
-    Route::post('articles/destroy/all','ArticlesController@destroyAll')->name('articles.destroy.all');
+    Route::put('articles/destroy/all','ArticlesController@destroyAll')->name('articles.destroy.all');
     Route::get('articles/multiple/files/{article}/{field}','ArticlesController@multipleFiles')->name('articles.multiple.files');
     Route::put('articles/multiple/files/{article}/{field}','ArticlesController@multipleFilesOrder')->name('articles.multiple.files.order');
     Route::delete('articles/multiple/files/{article}/{field}/{multipleFile}','ArticlesController@multipleFilesDestroy')->name('articles.multiple.files.destroy');
