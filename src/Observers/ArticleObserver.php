@@ -31,8 +31,8 @@ class ArticleObserver
 {
     public function creating(Article $article)
     {
-        $article->status = '1';
-        $article->order = 9999;
+        $article->status || $article->status = '1';
+        $article->order || $article->order = 9999;
         $article->created_op || $article->created_op = Auth::id();
         $article->updated_op || $article->updated_op = Auth::id();
 
