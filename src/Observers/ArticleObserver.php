@@ -35,7 +35,6 @@ class ArticleObserver
         $article->order || $article->order = 9999;
         $article->created_op || $article->created_op = Auth::id();
         $article->updated_op || $article->updated_op = Auth::id();
-
     }
 
     public function updating(Article $article)
