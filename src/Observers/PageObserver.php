@@ -31,13 +31,12 @@ class PageObserver
 {
     public function creating(Page $page)
     {
-        //
-        $page->object_id = create_object_id();
-        $page->status = '1';
-        $page->order = 999;
-        $page->created_op || $page->created_op = Auth::id();
-        $page->updated_op || $page->updated_op = Auth::id();
-
+        $page->object_id    = create_object_id();
+        
+        $page->status       = $page->status     ?? '1';
+        $page->order        = $page->order      ?? 999;
+        $page->created_op   = $page->created_op ?? Auth::id();
+        $page->updated_op   = $page->updated_op ?? Auth::id();
     }
 
     public function updating(Page $page)
