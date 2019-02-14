@@ -67,7 +67,6 @@ Route::group([ 'middleware' => ['laracms.frontend'], ], function () {
     Route::get('user/home/{user}', 'UserController@home')->name('user.home');
     Route::get('login/{type}', 'Auth\LoginController@redirectToProvider')->name('oauth.login');
     Route::get('login/{type}/callback', 'Auth\LoginController@handleProviderCallback')->name('oauth.login.callback');
-    Route::post('verificationCodes', 'VerificationCodesController@store')->name('verificationCodes.store');
 
     # 前台需要用户认证路由
     Route::group(['middleware' => ['auth']], function(){
