@@ -115,15 +115,6 @@ Route::post('uploader/merge/chunks', 'UploadController@mergeChunks')->name('uplo
 Route::any('wechat/{safeWechat}.html', 'WeChatController@serve')->name('wechat.api');
 
 
-# 测试
-Route::get('test', function(){
-    $list = get_active_template();
-    
-    dump($list);
-});
-
-Route::get('redis', 'TestController@redis')->name('test.redis');
-
 /*
 |--------------------------------------------------------------------------
 | Administrator Routes
