@@ -128,8 +128,8 @@ class PermissionsController extends Controller
         if($permissions){
             $permissions = $categoryHandler->select($permissions);
         }
-        
-        $parent = $permissions->parent;
+
+        $parent = $permission->parent ?? 0;
 
         return backend_view('permissions.create_and_edit', compact('permissions','permission', 'parent'));
     }
