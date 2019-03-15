@@ -25,15 +25,22 @@
         <div class="col-md-12">
 
             <div class="table-tools" style="margin-bottom: 15px;">
-                <div class="pull-right" style="width: 250px;">
-                    <form class="layui-form" method="GET" action="">
+                <div class="pull-right" style="width: 450px;">
+                    <form class="form-inline" method="GET" action="">
                         <input type="hidden" name="type" value="{{$type}}">
-                        <div class="input-group">
-                            <input type="text" class="form-control" name="keyword" value="{{$keyword}}" placeholder="关键字">
-                            <span class="input-group-btn">
-                                <button class="btn btn-default" type="submit">搜索</button>
-                            </span>
+                        <div class="form-group">
+                            <select data-placeholder="选择分类" class="chosen-select form-control" name="category" tabindex="2" style="width: 225px">
+                                <option value=""></option>
+                                <option value="">/</option>
+                                @foreach($category as $key => $value)
+                                    <option @if($category_id == $key) selected @endif value="{{$key}}">/ {{$value}}</option>
+                                @endforeach
+                            </select>
                         </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" name="keyword" value="{{$keyword}}" placeholder="关键字">
+                        </div>
+                        <button class="btn btn-default" type="submit">搜索</button>
                     </form>
                 </div>
                 <div class="tools-group">

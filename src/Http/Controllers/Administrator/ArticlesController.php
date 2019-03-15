@@ -45,7 +45,7 @@ class ArticlesController extends Controller
      * @return mixed
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function index(Article $article, Request $request)
+    public function index(Article $article, Request $request, CategoryHandler $categoryHandler)
     {
         $this->authorize('index', $article);
 
@@ -78,9 +78,10 @@ class ArticlesController extends Controller
             return redirect($articles->url($articles->lastPage()));
         }
 
+        // 文章分类
+        $category = $categoryHandler->select($categoryHandler->getCategorys('article'));
 
-
-        return backend_view('article.index', compact('articles'));
+        return backend_view('article.index', compact('articles', 'category', 'category_id'));
     }
 
     /**
