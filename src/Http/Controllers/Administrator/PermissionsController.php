@@ -146,7 +146,7 @@ class PermissionsController extends Controller
     {
         $this->authorize('update', $permission);
 
-        $permission->update($request->only(['name','remarks']));
+        $permission->update($request->only(['parent', 'name','remarks']));
 
         return $this->redirect('permissions.index')->with('success', '更新成功.');
     }
