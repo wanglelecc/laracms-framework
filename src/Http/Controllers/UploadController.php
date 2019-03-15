@@ -145,11 +145,13 @@ class UploadController extends Controller
             case 'uploadimage':
                 /* 上传涂鸦 */
             case 'uploadscrawl':
+                /* 上传文件 */
+            case 'uploadfile':
+                $result = $this->uploader($request, $uploader);
+                break;
                 /* 上传视频 */
             case 'uploadvideo':
                 $request->file_type = 'video';
-                /* 上传文件 */
-            case 'uploadfile':
                 $result = $this->uploader($request, $uploader);
                 break;
             /* 列出图片 */
@@ -301,7 +303,7 @@ class UploadController extends Controller
     
         // 获取上传的类型
         $file_type = $request->file_type ?? 'file';
-        
+
         // 检查文件大小是否合法
         if( $file->getSize() <= 0 ){
             return $this->responseAjax(7,false, '文件大小不能为: 0 ');
@@ -332,7 +334,7 @@ class UploadController extends Controller
         
         // 保存附件到文件系统
         $result = $uploader->saveUploadFile( $file_type, intval($request->object_id ?? 0), $file, $request->folder, intval($request->editor ?? 0) );
-           
+
         // 判断是否为多图多附件上传
         if( $result && request('uploader_type', '') == 'multiple' ){
             // 处理多文件

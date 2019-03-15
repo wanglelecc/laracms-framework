@@ -200,7 +200,7 @@ class UploadHandler
         
         // 获取文件的后缀名，因图片从剪贴板里黏贴时后缀名为空，所以此处确保后缀一直存在
         $extension = strtolower($file->getClientOriginalExtension()) ? : 'png';
-        
+
         // 检查文件后缀是否是规则允许后缀
         if ( ! in_array($extension, config('filesystems.uploader.'.$type.'.allowed_ext')) ) {
             return false;
