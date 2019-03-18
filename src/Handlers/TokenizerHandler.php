@@ -27,8 +27,9 @@ use TeamTNT\TNTSearch\Support\TokenizerInterface;
  */
 class TokenizerHandler implements TokenizerInterface
 {
-    public function __construct(array $options = [])
+    public function __construct()
     {
+        $options = config('scout.tntsearch.jieba');
         Jieba::init($options);
         Finalseg::init($options);
     }

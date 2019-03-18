@@ -101,21 +101,10 @@ return [
             'distance' => 2
         ],
 
-        'tokenizer' => [
-            'driver' => env('TNTSEARCH_TOKENIZER', 'default'),
+        'tokenizer' => '\Wanglelecc\Laracms\Handlers\TokenizerHandler',
 
-            'jieba' => [
-                'dict' => 'small',
-            ],
-
-            'scws' => [
-                'charset' => 'utf-8',
-                'dict' => '/usr/local/scws/etc/dict.utf8.xdb',
-                'rule' => '/usr/local/scws/etc/rules.utf8.ini',
-                'multi' => 1,
-                'ignore' => true,
-                'duality' => false,
-            ],
+        'jieba' => [
+            'dict' => 'small',
         ],
 
     ],

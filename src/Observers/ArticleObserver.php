@@ -35,6 +35,9 @@ class ArticleObserver
         $article->order         = $article->order       ?? 9999;
         $article->created_op    = $article->created_op  ?? Auth::id();
         $article->updated_op    = $article->updated_op  ?? Auth::id();
+
+        // 生成文章摘录
+        empty( $article->description) && $article->description = make_excerpt($article->content);
     }
 
     public function updating(Article $article)

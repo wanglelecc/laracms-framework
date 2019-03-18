@@ -67,7 +67,7 @@ class IndexArticle extends Command
 
         $tnt = new TNTSearch;
         $tnt->loadConfig($config);
-        $tnt->setTokenizer(new TokenizerHandler(config('scout.tntsearch.tokenizer.jieba')));
+//        $tnt->setTokenizer(new TokenizerHandler(config('scout.tntsearch.tokenizer.jieba')));
         $tnt->setDatabaseHandle(app('db')->connection()->getPdo());
 
         $indexer = $tnt->createIndex('articles.index');
